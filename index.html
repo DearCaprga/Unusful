@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Idea Forge</title>
-    <!-- Подключаем более мягкий и округлый шрифт Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
@@ -105,7 +104,6 @@
             z-index: 5;
         }
 
-        /* Кнопка-гамбургер */
         .menu-toggle {
             position: absolute;
             left: 40px;
@@ -142,7 +140,6 @@
             background-color: var(--accent-neon);
         }
 
-        /* Боковое меню (Сайдбар) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -236,7 +233,6 @@
             color: var(--accent-neon);
         }
 
-        /* Оверлей */
         .overlay {
             position: fixed;
             top: 0;
@@ -256,7 +252,6 @@
             visibility: visible;
         }
 
-        /* Плашка навигации по центру */
         .main-nav {
             display: flex;
             gap: 15px;
@@ -309,14 +304,12 @@
             padding: 0 20px 60px;
         }
 
-        /* --- Главный блок --- */
+        /* --- Главный блок (Заголовки теперь с анимацией reveal) --- */
         .hero {
             text-align: center;
             margin-bottom: 50px;
-            animation: fadeIn 0.6s ease-out;
         }
 
-        /* Курсивный и мягкий заголовок */
         .hero h1 {
             font-size: 3.8rem;
             font-weight: 800;
@@ -357,7 +350,6 @@
             font-weight: 400;
         }
 
-        /* Поиск */
         .search-bar {
             display: flex;
             align-items: center;
@@ -393,14 +385,12 @@
             font-weight: 400;
         }
 
-        /* --- Большие блоки под поиском --- */
         .action-blocks {
             display: flex;
             gap: 25px;
             justify-content: center;
             margin-bottom: 60px;
             flex-wrap: wrap;
-            animation: fadeIn 0.8s ease-out;
         }
 
         .action-card {
@@ -436,7 +426,6 @@
             font-weight: 400;
         }
 
-        /* --- Карточки категорий --- */
         .categories {
             display: flex;
             gap: 25px;
@@ -484,8 +473,7 @@
             border-radius: 16px;
             margin-bottom: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            animation: fadeIn 1s ease-out;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .accordion.active {
@@ -540,7 +528,6 @@
             font-weight: 400;
         }
 
-        /* Стили для "Как это работает" */
         .steps-container {
             display: flex;
             flex-direction: column;
@@ -594,7 +581,6 @@
             font-weight: 400;
         }
 
-        /* --- Футер --- */
         footer {
             background-color: var(--surface-color);
             border-top: 1px solid var(--border-color);
@@ -646,16 +632,27 @@
             font-weight: 400;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- КЛАССЫ ДЛЯ АНИМАЦИИ ПРИ ПРОКРУТКЕ --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s cubic-bezier(0.5, 0, 0, 1), transform 0.6s cubic-bezier(0.5, 0, 0, 1);
+            will-change: opacity, transform;
         }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-card:nth-child(2), .category-card:nth-child(2) { transition-delay: 0.1s; }
+        .category-card:nth-child(3) { transition-delay: 0.2s; }
 
         @media (max-width: 768px) {
             .top-bar { padding: 15px 20px; }
             .logo { font-size: 1.4rem; }
             .menu-toggle { left: 20px; width: 40px; height: 40px; }
-            .main-nav-container { padding-top: 80px; } /* Отступ для кнопки */
+            .main-nav-container { padding-top: 80px; }
             .hero h1 { font-size: 2.5rem; }
             .hero h1 .line-3 { font-size: 1.8rem; }
             .main-nav { gap: 10px; padding: 8px; }
@@ -667,7 +664,6 @@
 </head>
 <body>
 
-    <!-- Верхняя панель -->
     <div class="top-bar">
         <div class="logo">Idea Forge</div>
         <div class="header-icons">
@@ -683,9 +679,7 @@
         </div>
     </div>
 
-    <!-- Навигация с гамбургером -->
     <div class="main-nav-container">
-        <!-- Кнопка меню (три полоски) -->
         <button class="menu-toggle" id="menuBtn">
             <span></span>
             <span></span>
@@ -700,7 +694,6 @@
         </div>
     </div>
 
-    <!-- Боковое меню (Сайдбар) -->
     <div class="overlay" id="overlay"></div>
     <aside class="sidebar" id="sidebar">
         <button class="sidebar-close" id="closeBtn">&times;</button>
@@ -727,47 +720,44 @@
     </aside>
 
     <div class="container">
-        <!-- Главный блок -->
+        <!-- Главный блок (Добавлен класс reveal к тексту) -->
         <div class="hero">
-            <h1>
+            <h1 class="reveal">
                 <span class="line-1">Найди идею.</span>
                 <span class="line-2">Создай Проект.</span>
                 <span class="line-3">Реши реальную задачу.</span>
             </h1>
-            <p>Платформа для реализации твоих идей и поиска единомышленников.</p>
+            <p class="reveal">Платформа для реализации твоих идей и поиска единомышленников.</p>
             
-            <div class="search-bar">
+            <div class="search-bar reveal">
                 <svg style="width:22px; height:22px; fill:var(--text-muted); margin-right:15px;" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 <input type="text" placeholder="Поиск...">
             </div>
         </div>
 
-        <!-- Большие блоки под поиском -->
         <div class="action-blocks">
-            <div class="action-card">
+            <div class="action-card reveal">
                 <h3>Найти проект</h3>
                 <p>Присоединяйся к существующим командам и решай интересные задачи.</p>
             </div>
-            <div class="action-card">
+            <div class="action-card reveal">
                 <h3>Предложить идею</h3>
                 <p>Расскажи о своей проблеме и найди тех, кто поможет её решить.</p>
             </div>
         </div>
 
-        <!-- Контурные блоки категорий -->
         <div class="categories">
-            <div class="category-card">
+            <div class="category-card reveal">
                 <h3>Учеба и Наука</h3>
             </div>
-            <div class="category-card">
+            <div class="category-card reveal">
                 <h3>Продуктовые кейсы</h3>
             </div>
-            <div class="category-card">
+            <div class="category-card reveal">
                 <h3>Разработка</h3>
             </div>
         </div>
 
-        <!-- Аккордеон 1: С чего начать? -->
         <div class="accordion" id="accordion-start">
             <div class="accordion-header">
                 <span>С чего начать?</span>
@@ -780,7 +770,6 @@
             </div>
         </div>
 
-        <!-- Аккордеон 2: Как это работает? -->
         <div class="accordion" id="accordion-how">
             <div class="accordion-header">
                 <span>Как это работает?</span>
@@ -821,7 +810,6 @@
         </div>
     </div>
 
-    <!-- Футер (Восстановлен) -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
@@ -847,7 +835,7 @@
     </footer>
 
     <script>
-        // --- Логика работы бокового меню ---
+        // --- Меню ---
         const menuBtn = document.getElementById('menuBtn');
         const closeBtn = document.getElementById('closeBtn');
         const sidebar = document.getElementById('sidebar');
@@ -862,41 +850,47 @@
         closeBtn.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
 
-        // --- Логика работы аккордеонов ---
+        // --- Аккордеоны ---
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const accordion = header.parentElement;
-                // Закрываем другие аккордеоны
-                document.querySelectorAll('.accordion').forEach(acc => {
-                    if (acc !== accordion) acc.classList.remove('active');
-                });
-                // Переключаем текущий
                 accordion.classList.toggle('active');
             });
         });
 
-        // --- Функция для открытия аккордеона из бокового меню ---
         function openAccordion(id) {
             const accordion = document.getElementById(id);
             if (accordion) {
-                // Закрываем меню
                 sidebar.classList.remove('open');
                 overlay.classList.remove('active');
-                
-                // Закрываем все остальные аккордеоны
-                document.querySelectorAll('.accordion').forEach(acc => {
-                    if (acc !== accordion) acc.classList.remove('active');
-                });
-                
-                // Открываем нужный
                 accordion.classList.add('active');
-                
-                // Плавная прокрутка к нему
                 setTimeout(() => {
                     accordion.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             }
         }
+
+        // --- Анимация при прокрутке (циклическая) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Срабатывает, когда 10% элемента видно
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    // Убираем класс при уходе из зоны, чтобы анимация сработала снова
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
